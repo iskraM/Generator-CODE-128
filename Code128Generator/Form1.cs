@@ -40,7 +40,7 @@ namespace Code128Generator
                         graphics.SmoothingMode = SmoothingMode.AntiAlias;
                         graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
                         graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                        graphics.DrawString(s.Replace('/', ' '), new Font("Tahoma", 14), Brushes.Black, new Point(codes.Width / 3, y));
+                        graphics.DrawString(s.Replace('/', ' '), new Font("Microsoft Sans Serif", 14), Brushes.Black, new Point(codes.Width / 3, y));
 
                         graphics.Flush();
                         y += 30;
