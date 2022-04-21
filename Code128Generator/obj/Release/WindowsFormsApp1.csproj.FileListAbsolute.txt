@@ -1,0 +1,15 @@
+D:\Generator-CODE-128\WindowsFormsApp1\bin\Release\WindowsFormsApp1.exe.config
+D:\Generator-CODE-128\WindowsFormsApp1\bin\Release\WindowsFormsApp1.exe
+D:\Generator-CODE-128\WindowsFormsApp1\bin\Release\WindowsFormsApp1.pdb
+D:\Generator-CODE-128\WindowsFormsApp1\bin\Release\System.Diagnostics.DiagnosticSource.xml
+D:\Generator-CODE-128\WindowsFormsApp1\bin\Release\zxing.xml
+D:\Generator-CODE-128\WindowsFormsApp1\bin\Release\zxing.presentation.xml
+D:\Generator-CODE-128\WindowsFormsApp1\obj\Release\WindowsFormsApp1.csproj.AssemblyReference.cache
+D:\Generator-CODE-128\WindowsFormsApp1\obj\Release\WindowsFormsApp1.Form1.resources
+D:\Generator-CODE-128\WindowsFormsApp1\obj\Release\WindowsFormsApp1.Properties.Resources.resources
+D:\Generator-CODE-128\WindowsFormsApp1\obj\Release\WindowsFormsApp1.csproj.GenerateResource.cache
+D:\Generator-CODE-128\WindowsFormsApp1\obj\Release\WindowsFormsApp1.csproj.CoreCompileInputs.cache
+D:\Generator-CODE-128\WindowsFormsApp1\obj\Release\WindowsFormsApp1.csproj.Fody.CopyLocal.cache
+D:\Generator-CODE-128\WindowsFormsApp1\obj\Release\WindowsFormsApp1.csproj.CopyComplete
+D:\Generator-CODE-128\WindowsFormsApp1\obj\Release\WindowsFormsApp1.exe
+D:\Generator-CODE-128\WindowsFormsApp1\obj\Release\WindowsFormsApp1.pdb
