@@ -46,7 +46,7 @@ namespace Code128Generator
             this.pbCodes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pbCodes.Location = new System.Drawing.Point(0, 0);
             this.pbCodes.Name = "pbCodes";
-            this.pbCodes.Size = new System.Drawing.Size(440, 579);
+            this.pbCodes.Size = new System.Drawing.Size(440, 528);
             this.pbCodes.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pbCodes.TabIndex = 2;
             this.pbCodes.TabStop = false;
@@ -57,14 +57,16 @@ namespace Code128Generator
             this.rtbRawCodes.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.rtbRawCodes.Location = new System.Drawing.Point(0, 0);
             this.rtbRawCodes.Name = "rtbRawCodes";
-            this.rtbRawCodes.Size = new System.Drawing.Size(315, 579);
+            this.rtbRawCodes.Size = new System.Drawing.Size(315, 528);
             this.rtbRawCodes.TabIndex = 3;
             this.rtbRawCodes.Text = "";
             // 
             // splitContainer1
             // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(10, 10);
+            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer1.Location = new System.Drawing.Point(10, 13);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -75,18 +77,19 @@ namespace Code128Generator
             // 
             this.splitContainer1.Panel2.AutoScroll = true;
             this.splitContainer1.Panel2.Controls.Add(this.pbCodes);
-            this.splitContainer1.Size = new System.Drawing.Size(759, 579);
+            this.splitContainer1.Size = new System.Drawing.Size(759, 528);
             this.splitContainer1.SplitterDistance = 315;
             this.splitContainer1.TabIndex = 4;
             // 
             // btnGenerate
             // 
             this.btnGenerate.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.btnGenerate.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
             this.btnGenerate.Location = new System.Drawing.Point(10, 547);
             this.btnGenerate.Name = "btnGenerate";
             this.btnGenerate.Size = new System.Drawing.Size(759, 42);
             this.btnGenerate.TabIndex = 3;
-            this.btnGenerate.Text = "Generiraj";
+            this.btnGenerate.Text = "GENERATE";
             this.btnGenerate.UseVisualStyleBackColor = true;
             this.btnGenerate.Click += new System.EventHandler(this.btnGenerate_Click);
             // 
@@ -99,7 +102,7 @@ namespace Code128Generator
             this.Controls.Add(this.splitContainer1);
             this.Name = "Form1";
             this.Padding = new System.Windows.Forms.Padding(10);
-            this.Text = "Code 128 generator";
+            this.Text = "CODE-128 generator";
             this.Resize += new System.EventHandler(this.Form1_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.pbCodes)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);

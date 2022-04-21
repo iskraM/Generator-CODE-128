@@ -18,7 +18,6 @@ D:\Generator-CODE-128\Code128Generator\bin\Release\Code-128 Generator.pdb
 D:\Generator-CODE-128\Code128Generator\bin\Release\System.Diagnostics.DiagnosticSource.xml
 D:\Generator-CODE-128\Code128Generator\bin\Release\zxing.xml
 D:\Generator-CODE-128\Code128Generator\bin\Release\zxing.presentation.xml
-D:\Generator-CODE-128\Code128Generator\obj\Release\CODE128.csproj.AssemblyReference.cache
 D:\Generator-CODE-128\Code128Generator\obj\Release\Code128Generator.Form1.resources
 D:\Generator-CODE-128\Code128Generator\obj\Release\Code128Generator.Properties.Resources.resources
 D:\Generator-CODE-128\Code128Generator\obj\Release\CODE128.csproj.GenerateResource.cache

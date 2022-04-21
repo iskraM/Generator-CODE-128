@@ -14,8 +14,6 @@ namespace Code128Generator
 {
     public partial class Form1 : Form
     {
-        bool tabPressed = false;
-
         public Form1()
         {
             InitializeComponent();
@@ -69,7 +67,6 @@ namespace Code128Generator
 
         private void Form1_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Prevent textbox beeping
             if (e.KeyChar == '\t') e.Handled = true;
         }
 
