@@ -29,6 +29,7 @@ namespace Code128Generator
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.pbCodes = new System.Windows.Forms.PictureBox();
             this.rtbRawCodes = new System.Windows.Forms.RichTextBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -100,6 +101,7 @@ namespace Code128Generator
             this.ClientSize = new System.Drawing.Size(779, 599);
             this.Controls.Add(this.btnGenerate);
             this.Controls.Add(this.splitContainer1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Padding = new System.Windows.Forms.Padding(10);
             this.Text = "CODE-128 generator";
