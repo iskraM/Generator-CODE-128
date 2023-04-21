@@ -34,21 +34,23 @@ namespace Code128Generator
             this.rtbRawCodes = new System.Windows.Forms.RichTextBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.btnGenerate = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.pbCodes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // pbCodes
             // 
+            this.pbCodes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pbCodes.BackColor = System.Drawing.Color.White;
-            this.pbCodes.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pbCodes.Location = new System.Drawing.Point(0, 0);
+            this.pbCodes.Location = new System.Drawing.Point(3, 3);
             this.pbCodes.Name = "pbCodes";
-            this.pbCodes.Size = new System.Drawing.Size(440, 528);
-            this.pbCodes.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbCodes.Size = new System.Drawing.Size(434, 522);
             this.pbCodes.TabIndex = 2;
             this.pbCodes.TabStop = false;
             // 
@@ -77,7 +79,7 @@ namespace Code128Generator
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.AutoScroll = true;
-            this.splitContainer1.Panel2.Controls.Add(this.pbCodes);
+            this.splitContainer1.Panel2.Controls.Add(this.panel1);
             this.splitContainer1.Size = new System.Drawing.Size(759, 528);
             this.splitContainer1.SplitterDistance = 315;
             this.splitContainer1.TabIndex = 4;
@@ -94,6 +96,16 @@ namespace Code128Generator
             this.btnGenerate.UseVisualStyleBackColor = true;
             this.btnGenerate.Click += new System.EventHandler(this.btnGenerate_Click);
             // 
+            // panel1
+            // 
+            this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.pbCodes);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(440, 528);
+            this.panel1.TabIndex = 3;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -109,9 +121,9 @@ namespace Code128Generator
             ((System.ComponentModel.ISupportInitialize)(this.pbCodes)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
-            this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -121,6 +133,7 @@ namespace Code128Generator
         private System.Windows.Forms.RichTextBox rtbRawCodes;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Button btnGenerate;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 

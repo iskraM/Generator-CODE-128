@@ -22,9 +22,38 @@ namespace Code128Generator
 
         private void btnGenerate_Click(object sender, EventArgs e)
         {
-            Bitmap codes = new Bitmap(pbCodes.Width, 10000);
-            Graphics graphics = Graphics.FromImage(codes);
+            int totalHeight = 0;
             BarcodeWriter writer = new BarcodeWriter() { Format = BarcodeFormat.CODE_128 };
+            writer.Options.Height = 70;
+
+            foreach (string s in rtbRawCodes.Lines)
+            {
+                if (!String.IsNullOrEmpty(s.Trim()))
+                {
+                    if (s.StartsWith("/"))
+                    {
+                        totalHeight += 30;
+                    }
+                    else
+                    {
+                        Bitmap code = writer.Write(s.Trim());
+                        totalHeight += code.Height + 30;
+                    }
+                }
+                else
+                {
+                    totalHeight += 15;
+                }
+            }
+
+            // marging at bottom
+            totalHeight += 40;
+
+            if (totalHeight < panel1.Height - 6)
+                totalHeight = panel1.Height - 6;
+
+            Bitmap codes = new Bitmap(pbCodes.Width, totalHeight);
+            Graphics graphics = Graphics.FromImage(codes);
             writer.Options.Height = 70;
 
             int y = 10;
@@ -35,10 +64,16 @@ namespace Code128Generator
                 {
                     if (s.StartsWith("/"))
                     {
+                        int centerX = pbCodes.Width / 2;
+
+                        // Calculate the location to draw the text
+                        SizeF textSize = graphics.MeasureString(s.Replace('/', ' ').Trim(), new Font("Microsoft Sans Serif", 14));
+                        Point textLocation = new Point(centerX - (int)(textSize.Width / 2) - 10, y);
+
                         graphics.SmoothingMode = SmoothingMode.AntiAlias;
                         graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
                         graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                        graphics.DrawString(s.Replace('/', ' '), new Font("Microsoft Sans Serif", 14), Brushes.Black, new Point(codes.Width / 3, y));
+                        graphics.DrawString(s.Replace('/', ' '), new Font("Microsoft Sans Serif", 14), Brushes.Black, textLocation);
 
                         graphics.Flush();
                         y += 30;
@@ -57,6 +92,7 @@ namespace Code128Generator
             }
 
             pbCodes.Image = codes;
+            pbCodes.Height = codes.Height;
         }
 
         protected override bool ProcessDialogKey(Keys keyData)

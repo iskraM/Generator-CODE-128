@@ -26,3 +26,4 @@ D:\Generator-CODE-128\Code128Generator\obj\Release\CODE128.csproj.Fody.CopyLocal
 D:\Generator-CODE-128\Code128Generator\obj\Release\CODE128.csproj.CopyComplete
 D:\Generator-CODE-128\Code128Generator\obj\Release\Code-128 Generator.exe
 D:\Generator-CODE-128\Code128Generator\obj\Release\Code-128 Generator.pdb
+D:\Generator-CODE-128\Code128Generator\obj\Release\CODE128.csproj.AssemblyReference.cache
