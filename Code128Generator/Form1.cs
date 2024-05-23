@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿using iTextSharp.text;
+using iTextSharp.text.pdf;
+using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
 using ZXing;
 
@@ -14,10 +11,13 @@ namespace Code128Generator
 {
     public partial class Form1 : Form
     {
+        bool hasGenerated;
+
         public Form1()
         {
             InitializeComponent();
             rtbRawCodes.Focus();
+            hasGenerated = false;
         }
 
         private void btnGenerate_Click(object sender, EventArgs e)
@@ -67,13 +67,13 @@ namespace Code128Generator
                         int centerX = pbCodes.Width / 2;
 
                         // Calculate the location to draw the text
-                        SizeF textSize = graphics.MeasureString(s.Replace('/', ' ').Trim(), new Font("Microsoft Sans Serif", 14));
+                        SizeF textSize = graphics.MeasureString(s.Replace('/', ' ').Trim(), new System.Drawing.Font("Microsoft Sans Serif", 14));
                         Point textLocation = new Point(centerX - (int)(textSize.Width / 2) - 10, y);
 
                         graphics.SmoothingMode = SmoothingMode.AntiAlias;
                         graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
                         graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                        graphics.DrawString(s.Replace('/', ' '), new Font("Microsoft Sans Serif", 14), Brushes.Black, textLocation);
+                        graphics.DrawString(s.Replace('/', ' '), new System.Drawing.Font("Microsoft Sans Serif", 14), Brushes.Black, textLocation);
 
                         graphics.Flush();
                         y += 30;
@@ -85,7 +85,8 @@ namespace Code128Generator
                         y += code.Height + 30;
                         last = code.Height;
                     }
-                } else
+                }
+                else
                 {
                     y += last / 2;
                 }
@@ -93,6 +94,8 @@ namespace Code128Generator
 
             pbCodes.Image = codes;
             pbCodes.Height = codes.Height;
+
+            hasGenerated = true;
         }
 
         protected override bool ProcessDialogKey(Keys keyData)
@@ -109,6 +112,49 @@ namespace Code128Generator
         private void Form1_Resize(object sender, EventArgs e)
         {
             btnGenerate_Click(null, null);
+        }
+
+        private void btnPDF_Click(object sender, EventArgs e)
+        {
+            if (hasGenerated)
+            {
+                SaveFileDialog sfd = new SaveFileDialog();
+                sfd.Filter = "PDF|*.pdf";
+                sfd.RestoreDirectory = true;
+
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    SaveImageAsPdf(pbCodes.Image, sfd.FileName);
+                }
+            }
+        }
+
+        private void SaveImageAsPdf(System.Drawing.Image image, string pdfPath)
+        {
+            if (image == null)
+            {
+                MessageBox.Show("No image to save.");
+                return;
+            }
+
+            try
+            {
+                Document document = new Document();
+                using (var stream = new FileStream(pdfPath, FileMode.Create, FileAccess.Write, FileShare.None))
+                {
+                    PdfWriter.GetInstance(document, stream);
+                    document.Open();
+                    var pdfImg = iTextSharp.text.Image.GetInstance(image, BaseColor.WHITE);
+                    document.Add(pdfImg);
+                    document.Close();
+                }
+
+                MessageBox.Show("PDF saved successfully.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
         }
     }
 }

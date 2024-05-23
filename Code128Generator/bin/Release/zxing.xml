@@ -2840,10 +2840,10 @@
             module, x is the column position, and y is the row position. The ordering is always x, y.
             The origin is at the top-left.</p>
               <p>Internally the bits are represented in a 1-D array of 32-bit ints. However, each row begins
-            with a new int. This is done intentionally so that we can copy out a row into a BitArray very
+            with a new int. This is done intentionally so that we can copy out a row into a <see cref="T:ZXing.Common.BitArray"/> very
             efficiently.</p>
               <p>The ordering of bits is row-major. Within each int, the least significant bits are used first,
-            meaning they represent lower x values. This is compatible with BitArray's implementation.</p>
+            meaning they represent lower x values. This is compatible with <see cref="T:ZXing.Common.BitArray"/>'s implementation.</p>
             </summary>
             <author>Sean Owen</author>
             <author>dswitkin@google.com (Daniel Switkin)</author>
@@ -2968,6 +2968,13 @@
             </summary>
             <param name="y">row to set</param>
             <param name="row">{@link BitArray} to copy from</param>
+        </member>
+        <member name="M:ZXing.Common.BitMatrix.rotate(System.Int32)">
+            <summary>
+            Modifies this {@code BitMatrix} to represent the same but rotated the given degrees(0, 90, 180, 270)
+            </summary>
+            <param name="degrees">number of degrees to rotate through counter-clockwise(0, 90, 180, 270)</param>
+            <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="M:ZXing.Common.BitMatrix.rotate180">
             <summary>
@@ -3673,6 +3680,238 @@
             <returns><see cref="T:ZXing.Common.ECI"/> representing ECI of given value, or null if it is legal but unsupported</returns>
             <throws>ArgumentException if ECI value is invalid </throws>
         </member>
+        <member name="T:ZXing.Common.ECIEncoderSet">
+            <summary>
+            Set of CharsetEncoders for a given input string
+            Invariants:
+            - The list contains only encoders from CharacterSetECI(list is shorter then the list of encoders available on
+              the platform for which ECI values are defined).
+            - The list contains encoders at least one encoder for every character in the input.
+            - The first encoder in the list is always the ISO-8859-1 encoder even of no character in the input can be encoded
+            by it.
+            - If the input contains a character that is not in ISO-8859-1 then the last two entries in the list will be the
+            UTF-8 encoder and the UTF-16BE encoder.
+            
+            @author Alex Geller
+            </summary>
+        </member>
+        <member name="M:ZXing.Common.ECIEncoderSet.#ctor(System.String,System.Text.Encoding,System.Int32)">
+            <summary>
+            Constructs an encoder set
+            </summary>
+            <param name="stringToEncode">the string that needs to be encoded</param>
+            <param name="priorityCharset">The preferred { @link Charset } or null.</param>
+            <param name="fnc1">fnc1 denotes the character in the input that represents the FNC1 character or -1 for a non-GS1 bar
+            code.When specified, it is considered an error to pass it as argument to the methods canEncode() or encode().</param>
+        </member>
+        <member name="M:ZXing.Common.ECIEncoderSet.canEncode(System.Text.Encoding,System.Char)">
+            <summary>
+            
+            </summary>
+            <param name="encoding"></param>
+            <param name="c"></param>
+            <returns></returns>
+        </member>
+        <member name="P:ZXing.Common.ECIEncoderSet.Length">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ZXing.Common.ECIEncoderSet.getCharsetName(System.Int32)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ZXing.Common.ECIEncoderSet.getCharset(System.Int32)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ZXing.Common.ECIEncoderSet.getECIValue(System.Int32)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ZXing.Common.ECIEncoderSet.getPriorityEncoderIndex">
+            <summary>
+            returns -1 if no priority charset was defined
+            </summary>
+            <returns>-1 if no priority charset was defined</returns>
+        </member>
+        <member name="M:ZXing.Common.ECIEncoderSet.canEncode(System.Char,System.Int32)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ZXing.Common.ECIEncoderSet.encode(System.Char,System.Int32)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ZXing.Common.ECIEncoderSet.encode(System.String,System.Int32)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ZXing.Common.ECIEncoderSet.Clone(System.Text.Encoding)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:ZXing.Common.ECIInput">
+            <summary>
+            Interface to navigate a sequence of ECIs and bytes.
+            @author Alex Geller
+            </summary>
+        </member>
+        <member name="P:ZXing.Common.ECIInput.Length">
+            <summary>
+            Returns the length of this input.The length is the number of {@code byte}s in or ECIs in the sequence.
+            </summary>
+        </member>
+        <member name="M:ZXing.Common.ECIInput.charAt(System.Int32)">
+            <summary>
+            Returns the {@code byte} value at the specified index.  An index ranges from zero to {@code length() - 1}.  The first { @code byte}
+            value of the sequence is at index zero, the next at index one, and so on, as for array indexing.
+            </summary>
+            <param name="index">the index of the {@code byte} value to be returned</param>
+            <returns>the specified {@code byte} value as character or the FNC1 character</returns>
+            <exception cref="T:System.IndexOutOfRangeException">if the {@code index} argument is negative or not less than {@code Length}</exception>
+            <exception cref="T:System.ArgumentException">if the value at the {@code index} argument is an ECI (@see #isECI)</exception>
+        </member>
+        <member name="M:ZXing.Common.ECIInput.subSequence(System.Int32,System.Int32)">
+            <summary>
+            Returns a {@code CharSequence} that is a subsequence of this sequence.
+            The subsequence starts with the {@code char} value at the specified index and
+            ends with the {@code char} value at index {@code end - 1}.  The length
+            (in {@code char}s) of the
+            returned sequence is {@code end - start}, so if {@code start == end}
+            then an empty sequence is returned.
+            </summary>
+            <param name="start">the start index, inclusive</param>
+            <param name="end">the start index, inclusive</param>
+            <returns>the specified subsequence</returns>
+            <exception cref="T:System.IndexOutOfRangeException">if {@code start} or {@code end} are negative,
+            if {@code end} is greater than { @code length()},
+            or if {@code start} is greater than { @code end}</exception>
+            <exception cref="T:System.ArgumentException">if a value in the range {@code start}-{@code end} is an ECI (@see #isECI)</exception>
+        </member>
+        <member name="M:ZXing.Common.ECIInput.isECI(System.Int32)">
+            <summary>
+            Determines if a value is an ECI
+            </summary>
+            <param name="index">the index of the value</param>
+            <returns>true if the value at position {@code index} is an ECI</returns>
+            <exception cref="T:System.IndexOutOfRangeException">if the {@code index} argument is negative or not less than {@code length()}</exception>
+        </member>
+        <member name="M:ZXing.Common.ECIInput.getECIValue(System.Int32)">
+            <summary>
+            Returns the {@code int} ECI value at the specified index.  An index ranges from zero
+            to {@code length() - 1}.  The first {@code byte} value of the sequence is at
+            index zero, the next at index one, and so on, as for array
+            indexing.
+            </summary>
+            <param name="index">the index of the {@code int} value to be returned</param>
+            <returns>the specified {@code int} ECI value. 
+            The ECI specified the encoding of all bytes with a higher index until the
+            next ECI or until the end of the input if no other ECI follows.</returns>
+            <exception cref="T:System.IndexOutOfRangeException">if the value at the {@code index} argument is not an ECI (@see #isECI)</exception>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:ZXing.Common.ECIInput.haveNCharacters(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="index"></param>
+            <param name="n"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ZXing.Common.ECIStringBuilder">
+             <summary>
+             Class that converts a sequence of ECIs and bytes into a string
+            
+             @author Alex Geller
+             </summary>
+        </member>
+        <member name="M:ZXing.Common.ECIStringBuilder.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ZXing.Common.ECIStringBuilder.#ctor(System.Text.Encoding)">
+            <summary>
+            
+            </summary>
+            <param name="standardEncoding"></param>
+        </member>
+        <member name="M:ZXing.Common.ECIStringBuilder.#ctor(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="initialCapacity"></param>
+        </member>
+        <member name="M:ZXing.Common.ECIStringBuilder.#ctor(System.Int32,System.Text.Encoding,System.Text.Encoding)">
+            <summary>
+            
+            </summary>
+            <param name="initialCapacity"></param>
+            <param name="standardEncoding"></param>
+            <param name="startWithEncoding"></param>
+        </member>
+        <member name="M:ZXing.Common.ECIStringBuilder.Append(System.Char)">
+            <summary>
+            Appends {@code value} as a byte value
+            </summary>
+            <param name="value">character whose lowest byte is to be appended</param>
+        </member>
+        <member name="M:ZXing.Common.ECIStringBuilder.Append(System.Byte)">
+            <summary>
+            Appends {@code value} as a byte value
+            </summary>
+            <param name="value">byte to append</param>
+        </member>
+        <member name="M:ZXing.Common.ECIStringBuilder.Append(System.String)">
+            <summary>
+            Appends the characters in {@code value} as bytes values
+            </summary>
+            <param name="value">string to append</param>
+        </member>
+        <member name="M:ZXing.Common.ECIStringBuilder.Append(System.Int32)">
+            <summary>
+            Append the string repesentation of {@code value} (short for {@code append(String.valueOf(value))})
+            </summary>
+            <param name="value">int to append as a string</param>
+        </member>
+        <member name="M:ZXing.Common.ECIStringBuilder.AppendECI(System.Int32)">
+            <summary>
+            Appends ECI value to output.
+            </summary>
+            <param name="value">ECI value to append, as an int</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZXing.Common.ECIStringBuilder.AppendCharacters(System.Text.StringBuilder)">
+            <summary>
+            Appends the characters from {@code value} (unlike all other append methods of this class who append bytes)
+            </summary>
+            <param name="value">characters to append</param>
+        </member>
+        <member name="P:ZXing.Common.ECIStringBuilder.Length">
+            <summary>
+            Short for {@code toString().length()} (if possible, use {@link #isEmpty()} instead)
+            </summary>
+            <returns>length of string representation in characters</returns>
+        </member>
+        <member name="P:ZXing.Common.ECIStringBuilder.isEmpty">
+            <summary>
+            true if nothing has been appended
+            </summary>
+        </member>
+        <member name="M:ZXing.Common.ECIStringBuilder.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:ZXing.Common.EncodingOptions">
             <summary>
             Defines an container for encoder options
@@ -3709,6 +3948,11 @@
             <summary>
             Specifies whether the data should be encoded to the GS1 standard;
             FNC1 character is added in front of the data
+            </summary>
+        </member>
+        <member name="P:ZXing.Common.EncodingOptions.NoPadding">
+            <summary>
+            Don't add a white area around the generated barcode if the requested size is larger than then barcode.
             </summary>
         </member>
         <member name="M:ZXing.Common.EncodingOptions.#ctor">
@@ -3928,6 +4172,114 @@
             <param name="subHeight">Height of the sub.</param>
             <param name="width">The width.</param>
             <param name="height">The height.</param>
+            <returns></returns>
+        </member>
+        <member name="T:ZXing.Common.MinimalECIInput">
+            <summary>
+            Class that converts a character string into a sequence of ECIs and bytes
+            The implementation uses the Dijkstra algorithm to produce minimal encodings
+            @author Alex Geller
+            </summary>
+        </member>
+        <member name="M:ZXing.Common.MinimalECIInput.#ctor(System.String,System.Text.Encoding,System.Int32)">
+            <summary>
+            Constructs a minimal input
+            </summary>
+            <param name="stringToEncode">the character string to encode</param>
+            <param name="priorityCharset">The preferred {@link Charset}. When the value of the argument is null, the algorithm
+            chooses charsets that leads to a minimal representation. Otherwise the algorithm will use the priority
+            charset to encode any character in the input that can be encoded by it if the charset is among the
+            supported charsets.</param>
+            <param name="fnc1">denotes the character in the input that represents the FNC1 character or -1 if this is not GS1
+            input.</param>
+        </member>
+        <member name="M:ZXing.Common.MinimalECIInput.getFNC1Character">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:ZXing.Common.MinimalECIInput.Length">
+            <summary>
+            Returns the length of this input.  The length is the number
+            of {@code byte}s, FNC1 characters or ECIs in the sequence.
+            </summary>
+        </member>
+        <member name="M:ZXing.Common.MinimalECIInput.haveNCharacters(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="index"></param>
+            <param name="n"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZXing.Common.MinimalECIInput.charAt(System.Int32)">
+            <summary>
+            Returns the {@code byte} value at the specified index.  An index ranges from zero
+            to {@code length() - 1}.  The first {@code byte} value of the sequence is at
+            index zero, the next at index one, and so on, as for array
+            indexing.
+            </summary>
+            <param name="index">the index of the {@code byte} value to be returned</param>
+            <returns>the specified {@code byte} value as character or the FNC1 character</returns>
+            <exception cref="T:System.IndexOutOfRangeException">if the {@code index} argument is negative or not less than
+            {@code length()}</exception>
+            <exception cref="T:System.ArgumentException">if the value at the {@code index} argument is an ECI (@see #isECI)</exception>
+        </member>
+        <member name="M:ZXing.Common.MinimalECIInput.subSequence(System.Int32,System.Int32)">
+            <summary>
+            Returns a {@code CharSequence} that is a subsequence of this sequence.
+            The subsequence starts with the {@code char} value at the specified index and
+            ends with the {@code char} value at index {@code end - 1}.  The length
+            (in {@code char}s) of the
+            returned sequence is {@code end - start}, so if {@code start == end}
+            then an empty sequence is returned.
+            </summary>
+            <param name="start">the start index, inclusive</param>
+            <param name="end">the end index, exclusive</param>
+            <returns>the specified subsequence</returns>
+            <exception cref="T:System.IndexOutOfRangeException">if {@code start} or {@code end} are negative,
+            if {@code end} is greater than {@code length()},
+            or if {@code start} is greater than {@code end}</exception>
+            <exception cref="T:System.ArgumentException">if a value in the range {@code start}-{@code end} is an ECI (@see #isECI)</exception>
+        </member>
+        <member name="M:ZXing.Common.MinimalECIInput.isECI(System.Int32)">
+            <summary>
+            Determines if a value is an ECI
+            </summary>
+            <param name="index">the index of the value</param>
+            <returns>true if the value at position {@code index} is an ECI</returns>
+            <exception cref="T:System.IndexOutOfRangeException">if the {@code index} argument is negative or not less than
+            {@code length()}</exception>
+        </member>
+        <member name="M:ZXing.Common.MinimalECIInput.isFNC1(System.Int32)">
+            <summary>
+            Determines if a value is the FNC1 character
+            </summary>
+            <param name="index">the index of the value</param>
+            <returns>true if the value at position {@code index} is the FNC1 character</returns>
+            <exception cref="T:System.IndexOutOfRangeException">if the {@code index} argument is negative or not less than
+            {@code length()}</exception>
+        </member>
+        <member name="M:ZXing.Common.MinimalECIInput.getECIValue(System.Int32)">
+            <summary>
+            Returns the {@code int} ECI value at the specified index.  An index ranges from zero
+            to {@code length() - 1}.  The first {@code byte} value of the sequence is at
+            index zero, the next at index one, and so on, as for array
+            indexing.
+            </summary>
+            <param name="index">the index of the {@code int} value to be returned</param>
+            <returns>the specified {@code int} ECI value.
+            The ECI specified the encoding of all bytes with a higher index until the
+            next ECI or until the end of the input if no other ECI follows.</returns>
+            <exception cref="T:System.IndexOutOfRangeException">if the {@code index} argument is negative or not less than
+            {@code length()}</exception>
+            <exception cref="T:System.ArgumentException">if the value at the {@code index} argument is not an ECI (@see #isECI)</exception>
+        </member>
+        <member name="M:ZXing.Common.MinimalECIInput.ToString">
+            <summary>
+            
+            </summary>
             <returns></returns>
         </member>
         <member name="T:ZXing.Common.PerspectiveTransform">
@@ -4369,7 +4721,7 @@
             <param name="hints"></param>
             <returns></returns>
         </member>
-        <member name="M:ZXing.Datamatrix.DataMatrixWriter.encodeLowLevel(ZXing.Datamatrix.Encoder.DefaultPlacement,ZXing.Datamatrix.Encoder.SymbolInfo,System.Int32,System.Int32)">
+        <member name="M:ZXing.Datamatrix.DataMatrixWriter.encodeLowLevel(ZXing.Datamatrix.Encoder.DefaultPlacement,ZXing.Datamatrix.Encoder.SymbolInfo,System.Int32,System.Int32,System.Int32,System.Boolean)">
             <summary>
             Encode the given symbol info to a bit matrix.
             </summary>
@@ -4377,15 +4729,19 @@
             <param name="symbolInfo">The symbol info to encode.</param>
             <param name="width"></param>
             <param name="height"></param>
+            <param name="margin"></param>
+            <param name="noPadding"></param>
             <returns>The bit matrix generated.</returns>
         </member>
-        <member name="M:ZXing.Datamatrix.DataMatrixWriter.convertByteMatrixToBitMatrix(ZXing.QrCode.Internal.ByteMatrix,System.Int32,System.Int32)">
+        <member name="M:ZXing.Datamatrix.DataMatrixWriter.convertByteMatrixToBitMatrix(ZXing.QrCode.Internal.ByteMatrix,System.Int32,System.Int32,System.Int32,System.Boolean)">
             <summary>
             Convert the ByteMatrix to BitMatrix.
             </summary>
             <param name="matrix">The input matrix.</param>
             <param name="reqWidth">The requested width of the image (in pixels) with the Datamatrix code</param>
             <param name="reqHeight">The requested height of the image (in pixels) with the Datamatrix code</param>
+            <param name="margin"></param>
+            <param name="noPadding"></param>
             <returns>The output matrix.</returns>
         </member>
         <member name="T:ZXing.Datamatrix.Internal.BitMatrixParser">
@@ -4543,35 +4899,38 @@
             The Text Basic Character Set (*'s used for placeholders for the shift values)
             </summary>
         </member>
-        <member name="M:ZXing.Datamatrix.Internal.DecodedBitStreamParser.decodeAsciiSegment(ZXing.Common.BitSource,System.Text.StringBuilder,System.Text.StringBuilder,System.Collections.Generic.List{System.Int32},ZXing.Datamatrix.Internal.DecodedBitStreamParser.Mode@)">
+        <member name="M:ZXing.Datamatrix.Internal.DecodedBitStreamParser.decodeAsciiSegment(ZXing.Common.BitSource,ZXing.Common.ECIStringBuilder,System.Text.StringBuilder,System.Collections.Generic.List{System.Int32},ZXing.Datamatrix.Internal.DecodedBitStreamParser.Mode@)">
             <summary>
             See ISO 16022:2006, 5.2.3 and Annex C, Table C.2
             </summary>
         </member>
-        <member name="M:ZXing.Datamatrix.Internal.DecodedBitStreamParser.decodeC40Segment(ZXing.Common.BitSource,System.Text.StringBuilder,System.Collections.Generic.List{System.Int32})">
+        <member name="M:ZXing.Datamatrix.Internal.DecodedBitStreamParser.decodeC40Segment(ZXing.Common.BitSource,ZXing.Common.ECIStringBuilder,System.Collections.Generic.List{System.Int32})">
             <summary>
             See ISO 16022:2006, 5.2.5 and Annex C, Table C.1
             </summary>
         </member>
-        <member name="M:ZXing.Datamatrix.Internal.DecodedBitStreamParser.decodeTextSegment(ZXing.Common.BitSource,System.Text.StringBuilder,System.Collections.Generic.List{System.Int32})">
+        <member name="M:ZXing.Datamatrix.Internal.DecodedBitStreamParser.decodeTextSegment(ZXing.Common.BitSource,ZXing.Common.ECIStringBuilder,System.Collections.Generic.List{System.Int32})">
             <summary>
             See ISO 16022:2006, 5.2.6 and Annex C, Table C.2
             </summary>
         </member>
-        <member name="M:ZXing.Datamatrix.Internal.DecodedBitStreamParser.decodeAnsiX12Segment(ZXing.Common.BitSource,System.Text.StringBuilder)">
+        <member name="M:ZXing.Datamatrix.Internal.DecodedBitStreamParser.decodeAnsiX12Segment(ZXing.Common.BitSource,ZXing.Common.ECIStringBuilder)">
             <summary>
             See ISO 16022:2006, 5.2.7
             </summary>
         </member>
-        <member name="M:ZXing.Datamatrix.Internal.DecodedBitStreamParser.decodeEdifactSegment(ZXing.Common.BitSource,System.Text.StringBuilder)">
+        <member name="M:ZXing.Datamatrix.Internal.DecodedBitStreamParser.decodeEdifactSegment(ZXing.Common.BitSource,ZXing.Common.ECIStringBuilder)">
             <summary>
             See ISO 16022:2006, 5.2.8 and Annex C Table C.3
             </summary>
         </member>
-        <member name="M:ZXing.Datamatrix.Internal.DecodedBitStreamParser.decodeBase256Segment(ZXing.Common.BitSource,System.Text.StringBuilder,System.Collections.Generic.IList{System.Byte[]})">
+        <member name="M:ZXing.Datamatrix.Internal.DecodedBitStreamParser.decodeBase256Segment(ZXing.Common.BitSource,ZXing.Common.ECIStringBuilder,System.Collections.Generic.IList{System.Byte[]})">
             <summary>
             See ISO 16022:2006, 5.2.9 and Annex B, B.2
             </summary>
+        </member>
+        <member name="M:ZXing.Datamatrix.Internal.DecodedBitStreamParser.decodeECISegment(ZXing.Common.BitSource,ZXing.Common.ECIStringBuilder)">
+            See ISO 16022:2007, 5.4.1
         </member>
         <member name="M:ZXing.Datamatrix.Internal.DecodedBitStreamParser.unrandomize255State(System.Int32,System.Int32)">
             <summary>
@@ -4991,6 +5350,21 @@
             <param name="defaultEncodation">encoding mode to start with</param>
             <returns>the encoded message (the char values range from 0 to 255)</returns>
         </member>
+        <member name="M:ZXing.Datamatrix.Encoder.HighLevelEncoder.encodeHighLevel(System.String,ZXing.Datamatrix.Encoder.SymbolShapeHint,ZXing.Dimension,ZXing.Dimension,System.Int32,System.Boolean,System.Text.Encoding,System.Boolean)">
+            <summary>
+            Performs message encoding of a DataMatrix message using the algorithm described in annex P
+            of ISO/IEC 16022:2000(E).
+            </summary>
+            <param name="msg">the message</param>
+            <param name="shape">requested shape. May be {@code SymbolShapeHint.FORCE_NONE},{@code SymbolShapeHint.FORCE_SQUARE} or {@code SymbolShapeHint.FORCE_RECTANGLE}.</param>
+            <param name="minSize">the minimum symbol size constraint or null for no constraint</param>
+            <param name="maxSize">the maximum symbol size constraint or null for no constraint</param>
+            <param name="defaultEncodation">encoding mode to start with</param>
+            <param name="forceC40">enforce C40 encoding</param>
+            <param name="encoding"></param>
+            <param name="disableEci"></param>
+            <returns>the encoded message (the char values range from 0 to 255)</returns>
+        </member>
         <member name="M:ZXing.Datamatrix.Encoder.HighLevelEncoder.determineConsecutiveDigitCount(System.String,System.Int32)">
             <summary>
             Determines the number of consecutive characters that are encodable using numeric compaction.
@@ -4998,6 +5372,111 @@
             <param name="msg">the message</param>
             <param name="startpos">the start position within the message</param>
             <returns>the requested character count</returns>
+        </member>
+        <member name="T:ZXing.Datamatrix.Encoder.MinimalEncoder">
+            <summary>
+            Encoder that encodes minimally
+            
+            Algorithm:
+            
+            Uses Dijkstra to produce mathematically minimal encodings that are in some cases smaller than the results produced
+            by the algorithm described in annex S in the specification ISO/IEC 16022:200(E). The biggest improvment of this
+            algorithm over that one is the case when the algorithm enters the most inefficient mode, the B256 mode.The
+            algorithm from the specification algorithm will exit this mode only if it encounters digits so that arbitrarily
+            inefficient results can be produced if the postfix contains no digits.
+            
+            Multi ECI support and ECI switching:
+            
+            For multi language content the algorithm selects the most compact representation using ECI modes.Note that unlike
+            the compaction algorithm used for QR-Codes, this implementation operates in two stages and therfore is not
+            mathematically optimal.In the first stage, the input string is encoded minimally as a stream of ECI character set
+            selectors and bytes encoded in the selected encoding.In this stage the algorithm might for example decide to
+            encode ocurrences of the characters "\u0150\u015C" (O-double-acute, S-circumflex) in UTF-8 by a single ECI or
+            alternatively by multiple ECIs that switch between IS0-8859-2 and ISO-8859-3 (e.g. in the case that the input
+            contains many * characters from ISO-8859-2 (Latin 2) and few from ISO-8859-3 (Latin 3)).
+            In a second stage this stream of ECIs and bytes is minimally encoded using the various Data Matrix encoding modes.
+            While both stages encode mathematically minimally it is not ensured that the result is mathematically minimal since
+            the size growth for inserting an ECI in the first stage can only be approximated as the first stage does not know
+            in which mode the ECI will occur in the second stage(may, or may not require an extra latch to ASCII depending on
+            the current mode). The reason for this shortcoming are difficulties in implementing it in a straightforward and
+            readable manner.
+            
+            GS1 support
+            
+            FNC1 delimiters can be encoded in the input string by using the FNC1 character specified in the encoding function.
+            When a FNC1 character is specified then a leading FNC1 will be encoded and all ocurrences of delimiter characters
+            while result in FNC1 codewords in the symbol.
+            
+            @author Alex Geller
+            </summary>
+        </member>
+        <member name="M:ZXing.Datamatrix.Encoder.MinimalEncoder.encodeHighLevel(System.String)">
+             Performs message encoding of a DataMatrix message
+            
+             @param msg the message
+             @return the encoded message (the char values range from 0 to 255)
+        </member>
+        <member name="M:ZXing.Datamatrix.Encoder.MinimalEncoder.encodeHighLevel(System.String,System.Text.Encoding,System.Int32,ZXing.Datamatrix.Encoder.SymbolShapeHint)">
+             Performs message encoding of a DataMatrix message
+            
+             @param msg the message
+             @param priorityCharset The preferred {@link Charset}. When the value of the argument is null, the algorithm
+               chooses charsets that leads to a minimal representation. Otherwise the algorithm will use the priority
+               charset to encode any character in the input that can be encoded by it if the charset is among the
+               supported charsets.
+             @param fnc1 denotes the character in the input that represents the FNC1 character or -1 if this is not a GS1
+               bar code. If the value is not -1 then a FNC1 is also prepended.
+             @param shape requested shape.
+             @return the encoded message (the char values range from 0 to 255)
+        </member>
+        <member name="M:ZXing.Datamatrix.Encoder.MinimalEncoder.encode(System.String,System.Text.Encoding,System.Int32,ZXing.Datamatrix.Encoder.SymbolShapeHint,System.Int32)">
+             Encodes input minimally and returns an array of the codewords
+            
+             @param input The string to encode
+             @param priorityCharset The preferred {@link Charset}. When the value of the argument is null, the algorithm
+               chooses charsets that leads to a minimal representation. Otherwise the algorithm will use the priority
+               charset to encode any character in the input that can be encoded by it if the charset is among the
+               supported charsets.
+             @param fnc1 denotes the character in the input that represents the FNC1 character or -1 if this is not a GS1
+               bar code. If the value is not -1 then a FNC1 is also prepended.
+             @param shape requested shape.
+             @param macroId Prepends the specified macro function in case that a value of 5 or 6 is specified.
+             @return An array of bytes representing the codewords of a minimal encoding.
+        </member>
+        <member name="M:ZXing.Datamatrix.Encoder.MinimalEncoder.getNumberOfC40Words(ZXing.Datamatrix.Encoder.MinimalEncoder.Input,System.Int32,System.Boolean,System.Int32[])">
+            @return the number of words in which the string starting at from can be encoded in c40 or text mode.
+            The number of characters encoded is returned in characterLength.
+            The number of characters encoded is also minimal in the sense that the algorithm stops as soon
+            as a character encoding fills a C40 word competely (three C40 values). An exception is at the
+            end of the string where two C40 values are allowed (according to the spec the third c40 value
+            is filled  with 0 (Shift 1) in this case).
+        </member>
+        <member name="M:ZXing.Datamatrix.Encoder.MinimalEncoder.Edge.getEndMode">
+            Returns Mode.ASCII in case that:
+             - Mode is EDIFACT and characterLength is less than 4 or the remaining characters can be encoded in at most 2
+               ASCII bytes.
+             - Mode is C40, TEXT or X12 and the remaining characters can be encoded in at most 1 ASCII byte.
+             Returns mode in all other cases.
+            
+        </member>
+        <member name="M:ZXing.Datamatrix.Encoder.MinimalEncoder.Edge.getLastASCII">
+            Peeks ahead and returns 1 if the postfix consists of exactly two digits, 2 if the postfix consists of exactly
+              two consecutive digits and a non extended character or of 4 digits.
+              Returns 0 in any other case
+            
+        </member>
+        <member name="M:ZXing.Datamatrix.Encoder.MinimalEncoder.Edge.getMinSymbolSize(System.Int32)">
+            Returns the capacity in codewords of the smallest symbol that has enough capacity to fit the given minimal
+             number of codewords.
+            
+        </member>
+        <member name="M:ZXing.Datamatrix.Encoder.MinimalEncoder.Edge.getCodewordsRemaining(System.Int32)">
+            Returns the remaining capacity in codewords of the smallest symbol that has enough capacity to fit the given
+             minimal number of codewords.
+            
+        </member>
+        <member name="P:ZXing.Datamatrix.Encoder.MinimalEncoder.Result.Size">
+            @return the size in bytes
         </member>
         <member name="T:ZXing.Datamatrix.Encoder.SymbolInfo">
             <summary>
@@ -5167,6 +5646,31 @@
             Specifies the default encodation
             Make sure that the content fits into the encodation value, otherwise there will be an exception thrown.
             standard value: Encodation.ASCII
+            </summary>
+        </member>
+        <member name="P:ZXing.Datamatrix.DatamatrixEncodingOptions.CompactEncoding">
+            <summary>
+            Specifies whether to use compact mode for Data Matrix (type {@link Boolean}, or "true" or "false"
+            The compact encoding mode also supports the encoding of characters that are not in the ISO-8859-1
+            character set via ECIs.
+            Please note that in that case, the most compact character encoding is chosen for characters in
+            the input that are not in the ISO-8859-1 character set. Based on experience, some scanners do not
+            support encodings like cp-1256 (Arabic). In such cases the encoding can be forced to UTF-8 by
+            means of the {@link #CHARACTER_SET} encoding hint.
+            Compact encoding also provides GS1-FNC1 support when {@link #GS1_FORMAT} is selected. In this case
+            group-separator character (ASCII 29 decimal) can be used to encode the positions of FNC1 codewords
+            for the purpose of delimiting AIs.
+            </summary>
+        </member>
+        <member name="P:ZXing.Datamatrix.DatamatrixEncodingOptions.ForceC40">
+            <summary>
+            Forces C40 encoding for data-matrix (type {@link Boolean}, or "true" or "false") {@link String } value). This 
+            option and {@link #DATA_MATRIX_COMPACT} are mutually exclusive.
+            </summary>
+        </member>
+        <member name="P:ZXing.Datamatrix.DatamatrixEncodingOptions.CharacterSet">
+            <summary>
+            Specifies what character encoding to use where applicable (type {@link String})
             </summary>
         </member>
         <member name="T:ZXing.DecodeHintType">
@@ -5476,8 +5980,10 @@
         </member>
         <member name="F:ZXing.EncodeHintType.FORCE_CODE_SET">
             <summary>
-            Forces which encoding will be used. Currently only used for Code-128 code sets (Type <see cref="T:System.String" />). Valid values are "A", "B", "C".
+            Forces which encoding will be used. Currently only used for Code-128 code sets (Type <see cref="T:System.String" />).
+            Valid values are "A", "B", "C".
             see also CODE128_FORCE_CODESET_B
+            This option and {@link #CODE128_COMPACT} are mutually exclusive.
             </summary>
         </member>
         <member name="F:ZXing.EncodeHintType.QR_COMPACT">
@@ -5487,6 +5993,50 @@
             for characters in the input that are not in the ISO-8859-1 character set. Based on experience,
             some scanners do not support encodings like cp-1256 (Arabic). In such cases the encoding can
             be forced to UTF-8 by means of the <see cref="F:ZXing.EncodeHintType.CHARACTER_SET"/> encoding hint.
+            </summary>
+        </member>
+        <member name="F:ZXing.EncodeHintType.NO_PADDING">
+            <summary>
+            if set to true, barcode writer uses WIDTH and HEIGHT as maximum values and in combination with MARGIN=0
+            there is no white border added. The resulting image would be smaller than the requested size.
+            </summary>
+        </member>
+        <member name="F:ZXing.EncodeHintType.DATA_MATRIX_COMPACT">
+            <summary>
+            Specifies whether to use compact mode for Data Matrix (type {@link Boolean}, or "true" or "false"
+            The compact encoding mode also supports the encoding of characters that are not in the ISO-8859-1
+            character set via ECIs.
+            Please note that in that case, the most compact character encoding is chosen for characters in
+            the input that are not in the ISO-8859-1 character set. Based on experience, some scanners do not
+            support encodings like cp-1256 (Arabic). In such cases the encoding can be forced to UTF-8 by
+            means of the {@link #CHARACTER_SET} encoding hint.
+            Compact encoding also provides GS1-FNC1 support when {@link #GS1_FORMAT} is selected. In this case
+            group-separator character (ASCII 29 decimal) can be used to encode the positions of FNC1 codewords
+            for the purpose of delimiting AIs.
+            This option and {@link #FORCE_C40} are mutually exclusive.
+            </summary>
+        </member>
+        <member name="F:ZXing.EncodeHintType.CODE128_COMPACT">
+            <summary>
+            Specifies whether to use compact mode for Code-128 code (type {@link Boolean}, or "true" or "false"
+            This can yield slightly smaller bar codes. This option and {@link #FORCE_CODE_SET} are mutually
+            exclusive options.
+            </summary>
+        </member>
+        <member name="F:ZXing.EncodeHintType.FORCE_C40">
+            <summary>
+            Forces C40 encoding for data-matrix (type {@link Boolean}, or "true" or "false") {@link String } value). This 
+            option and {@link #DATA_MATRIX_COMPACT} are mutually exclusive.
+            </summary>
+        </member>
+        <member name="F:ZXing.EncodeHintType.PDF417_AUTO_ECI">
+            <summary>
+            Specifies whether to automatically insert ECIs when encoding PDF417 (type {@link Boolean}, or "true" or "false"
+            {@link String} value). 
+            Please note that in that case, the most compact character encoding is chosen for characters in
+            the input that are not in the ISO-8859-1 character set. Based on experience, some scanners do not
+            support encodings like cp-1256 (Arabic). In such cases the encoding can be forced to UTF-8 by
+            means of the {@link #CHARACTER_SET} encoding hint.
             </summary>
         </member>
         <member name="T:ZXing.FormatException">
@@ -6499,6 +7049,13 @@
             Forces which encoding will be used. Currently only used for Code-128 code sets (Type <see cref="T:System.String" />). Valid values are "A", "B", "C".
             </summary>
         </member>
+        <member name="P:ZXing.OneD.Code128EncodingOptions.CompactEncoding">
+            <summary>
+            Specifies whether to use compact mode for Code-128 code (type {@link Boolean}, or "true" or "false"
+            This can yield slightly smaller bar codes. This option and {@link #FORCE_CODE_SET} are mutually
+            exclusive options.
+            </summary>
+        </member>
         <member name="T:ZXing.OneD.Code128EncodingOptions.Codesets">
             <summary>
             avaiable codesets
@@ -6567,6 +7124,14 @@
             <param name="contents"></param>
             <param name="hints"></param>
             <returns></returns>
+        </member>
+        <member name="T:ZXing.OneD.MinimalEncoder">
+             Encodes minimally using Divide-And-Conquer with Memoization
+            
+        </member>
+        <member name="M:ZXing.OneD.MinimalEncoder.encode(System.String,ZXing.OneD.MinimalEncoder.Charset,System.Int32)">
+             Encode the string starting at position position starting with the character set charset
+            
         </member>
         <member name="T:ZXing.OneD.Code39Reader">
             <summary>
@@ -7157,7 +7722,7 @@
             or {@code height}, {@code IllegalArgumentException} is thrown.
             </summary>
         </member>
-        <member name="M:ZXing.OneD.OneDimensionalCodeWriter.renderResult(System.Boolean[],System.Int32,System.Int32,System.Int32)">
+        <member name="M:ZXing.OneD.OneDimensionalCodeWriter.renderResult(System.Boolean[],System.Int32,System.Int32,System.Int32,System.Boolean)">
             <summary>
             </summary>
             <returns>a byte array of horizontal pixels (0 = white, 1 = black)</returns>
@@ -7765,6 +8330,11 @@
             <author>qwandor@google.com (Andrew Walbran)</author>
             </summary>
         </member>
+        <member name="P:ZXing.OneD.UPCAWriter.DefaultMargin">
+            <summary>
+            Gets the default margin.
+            </summary>
+        </member>
         <member name="M:ZXing.OneD.UPCAWriter.encode(System.String,ZXing.BarcodeFormat,System.Int32,System.Int32)">
             <summary>
             Encode a barcode using the default settings.
@@ -7946,9 +8516,9 @@
               <author>dsbnatut@gmail.com (Kazuki Nishiura)</author>
             </summary>
         </member>
-        <member name="P:ZXing.OneD.UPCEANWriter.DefaultMargin">
+        <member name="M:ZXing.OneD.UPCEANWriter.#ctor">
             <summary>
-            Gets the default margin.
+            
             </summary>
         </member>
         <member name="T:ZXing.OneD.UPCEReader">
@@ -8292,7 +8862,7 @@
             This is used in the numeric compaction decode algorithm.
             </summary>
         </member>
-        <member name="M:ZXing.PDF417.Internal.DecodedBitStreamParser.textCompaction(System.Int32[],System.Int32,System.Text.StringBuilder)">
+        <member name="M:ZXing.PDF417.Internal.DecodedBitStreamParser.textCompaction(System.Int32[],System.Int32,ZXing.Common.ECIStringBuilder)">
              <summary>
              Text Compaction mode (see 5.4.1.5) permits all printable ASCII characters to be
              encoded, i.e. values 32 - 126 inclusive in accordance with ISO/IEC 646 (IRV), as
@@ -8304,25 +8874,25 @@
              <returns>The next index into the codeword array.</returns>
              </summary>
         </member>
-        <member name="M:ZXing.PDF417.Internal.DecodedBitStreamParser.decodeTextCompaction(System.Int32[],System.Int32[],System.Int32,System.Text.StringBuilder)">
-             <summary>
-             The Text Compaction mode includes all the printable ASCII characters
-             (i.e. values from 32 to 126) and three ASCII control characters: HT or tab
-             (ASCII value 9), LF or line feed (ASCII value 10), and CR or carriage
-             return (ASCII value 13). The Text Compaction mode also includes various latch
-             and shift characters which are used exclusively within the mode. The Text
-             Compaction mode encodes up to 2 characters per codeword. The compaction rules
-             for converting data into PDF417 codewords are defined in 5.4.2.2. The sub-mode
-             switches are defined in 5.4.2.3.
-            
-             <param name="textCompactionData">The text compaction data.</param>
-             <param name="byteCompactionData">The byte compaction data if there</param>
-                                       was a mode shift.
-             <param name="length">The size of the text compaction and byte compaction data.</param>
-             <param name="result">The decoded data is appended to the result.</param>
-             </summary>
+        <member name="M:ZXing.PDF417.Internal.DecodedBitStreamParser.decodeTextCompaction(System.Int32[],System.Int32[],System.Int32,ZXing.Common.ECIStringBuilder,ZXing.PDF417.Internal.DecodedBitStreamParser.Mode)">
+            <summary>
+            The Text Compaction mode includes all the printable ASCII characters
+            (i.e. values from 32 to 126) and three ASCII control characters: HT or tab
+            (ASCII value 9), LF or line feed (ASCII value 10), and CR or carriage
+            return (ASCII value 13). The Text Compaction mode also includes various latch
+            and shift characters which are used exclusively within the mode. The Text
+            Compaction mode encodes up to 2 characters per codeword. The compaction rules
+            for converting data into PDF417 codewords are defined in 5.4.2.2. The sub-mode
+            switches are defined in 5.4.2.3.
+            </summary>
+            <param name="textCompactionData">The text compaction data.</param>
+            <param name="byteCompactionData">The byte compaction data if there was a mode shift.</param>
+            <param name="length">The size of the text compaction and byte compaction data.</param>
+            <param name="result">The decoded data is appended to the result.</param>
+            <param name="startMode">The mode in which decoding starts</param>
+            <returns>The mode in which decoding ended</returns>
         </member>
-        <member name="M:ZXing.PDF417.Internal.DecodedBitStreamParser.byteCompaction(System.Int32,System.Int32[],System.Text.Encoding,System.Int32,System.Text.StringBuilder)">
+        <member name="M:ZXing.PDF417.Internal.DecodedBitStreamParser.byteCompaction(System.Int32,System.Int32[],System.Int32,ZXing.Common.ECIStringBuilder)">
              <summary>
              Byte Compaction mode (see 5.4.3) permits all 256 possible 8-bit byte values to be encoded.
              This includes all ASCII characters value 0 to 127 inclusive and provides for international
@@ -8330,13 +8900,12 @@
             
              <param name="mode">The byte compaction mode i.e. 901 or 924</param>
              <param name="codewords">The array of codewords (data + error)</param>
-             <param name="encoding">Currently active character encoding</param>
              <param name="codeIndex">The current index into the codeword array.</param>
              <param name="result">The decoded data is appended to the result.</param>
              <returns>The next index into the codeword array.</returns>
              </summary>
         </member>
-        <member name="M:ZXing.PDF417.Internal.DecodedBitStreamParser.numericCompaction(System.Int32[],System.Int32,System.Text.StringBuilder)">
+        <member name="M:ZXing.PDF417.Internal.DecodedBitStreamParser.numericCompaction(System.Int32[],System.Int32,ZXing.Common.ECIStringBuilder)">
              <summary>
              Numeric Compaction mode (see 5.4.4) permits efficient encoding of numeric data strings.
             
@@ -8833,7 +9402,7 @@
             </summary>
             <author>Guenther Grau</author>
         </member>
-        <member name="M:ZXing.PDF417.Internal.PDF417ScanningDecoder.decode(ZXing.Common.BitMatrix,ZXing.ResultPoint,ZXing.ResultPoint,ZXing.ResultPoint,ZXing.ResultPoint,System.Int32,System.Int32)">
+        <member name="M:ZXing.PDF417.Internal.PDF417ScanningDecoder.decode(ZXing.Common.BitMatrix,ZXing.ResultPoint,ZXing.ResultPoint,ZXing.ResultPoint,ZXing.ResultPoint,System.Int32,System.Int32,System.Text.Encoding)">
             <summary>
             Decode the specified image, imageTopLeft, imageBottomLeft, imageTopRight, imageBottomRight, minCodewordWidth
             and maxCodewordWidth.
@@ -8849,6 +9418,7 @@
             <param name="imageBottomRight">Image bottom right.</param>
             <param name="minCodewordWidth">Minimum codeword width.</param>
             <param name="maxCodewordWidth">Max codeword width.</param>
+            <param name="startWithEncoding"></param>
         </member>
         <member name="M:ZXing.PDF417.Internal.PDF417ScanningDecoder.merge(ZXing.PDF417.Internal.DetectionResultRowIndicatorColumn,ZXing.PDF417.Internal.DetectionResultRowIndicatorColumn)">
             <summary>
@@ -8891,14 +9461,15 @@
             <param name="detectionResult">Detection result.</param>
             <param name="barcodeMatrix">Barcode matrix.</param>
         </member>
-        <member name="M:ZXing.PDF417.Internal.PDF417ScanningDecoder.createDecoderResult(ZXing.PDF417.Internal.DetectionResult)">
+        <member name="M:ZXing.PDF417.Internal.PDF417ScanningDecoder.createDecoderResult(ZXing.PDF417.Internal.DetectionResult,System.Text.Encoding)">
             <summary>
             Creates the decoder result.
             </summary>
             <returns>The decoder result.</returns>
             <param name="detectionResult">Detection result.</param>
+            <param name="startWithEncoding"></param>
         </member>
-        <member name="M:ZXing.PDF417.Internal.PDF417ScanningDecoder.createDecoderResultFromAmbiguousValues(System.Int32,System.Int32[],System.Int32[],System.Int32[],System.Int32[][])">
+        <member name="M:ZXing.PDF417.Internal.PDF417ScanningDecoder.createDecoderResultFromAmbiguousValues(System.Int32,System.Int32[],System.Int32[],System.Int32[],System.Int32[][],System.Text.Encoding)">
             <summary>
             This method deals with the fact, that the decoding process doesn't always yield a single most likely value. The
             current error correction implementation doesn't deal with erasures very well, so it's better to provide a value
@@ -8914,6 +9485,7 @@
             <param name="ambiguousIndexes">array with the indexes that have more than one most likely value.</param>
             <param name="ambiguousIndexValues">two dimensional array that contains the ambiguous values. The first dimension must
             be the same Length as the ambiguousIndexes array.</param>
+            <param name="startWithEncoding"></param>
         </member>
         <member name="M:ZXing.PDF417.Internal.PDF417ScanningDecoder.createBarcodeMatrix(ZXing.PDF417.Internal.DetectionResult)">
             <summary>
@@ -8994,7 +9566,7 @@
             <param name="minCodewordWidth">Minimum codeword width.</param>
             <param name="maxCodewordWidth">Max codeword width.</param>
         </member>
-        <member name="M:ZXing.PDF417.Internal.PDF417ScanningDecoder.decodeCodewords(System.Int32[],System.Int32,System.Int32[])">
+        <member name="M:ZXing.PDF417.Internal.PDF417ScanningDecoder.decodeCodewords(System.Int32[],System.Int32,System.Int32[],System.Text.Encoding)">
             <summary>
             Decodes the codewords.
             </summary>
@@ -9002,6 +9574,7 @@
             <param name="codewords">Codewords.</param>
             <param name="ecLevel">Ec level.</param>
             <param name="erasures">Erasures.</param>
+            <param name="startWithEncoding"></param>
         </member>
         <member name="M:ZXing.PDF417.Internal.PDF417ScanningDecoder.correctErrors(System.Int32[],System.Int32[],System.Int32)">
             <summary>
@@ -9091,6 +9664,14 @@
             <returns>
               <see cref="T:ZXing.PDF417.Internal.PDF417DetectorResult"/> encapsulating results of detecting a PDF417 code
             </returns>
+        </member>
+        <member name="M:ZXing.PDF417.Internal.Detector.applyRotation(ZXing.Common.BitMatrix,System.Int32)">
+            <summary>
+            Applies a rotation to the supplied BitMatrix.
+            </summary>
+            <param name="matrix">bit matrix to apply rotation to</param>
+            <param name="rotation">the degrees of rotation to apply</param>
+            <returns>BitMatrix with applied rotation</returns>
         </member>
         <member name="M:ZXing.PDF417.Internal.Detector.detect(System.Boolean,ZXing.Common.BitMatrix)">
             <summary>
@@ -9182,6 +9763,19 @@
             <summary>
             points of the detected result in the image
             </summary>
+        </member>
+        <member name="P:ZXing.PDF417.Internal.PDF417DetectorResult.Rotation">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ZXing.PDF417.Internal.PDF417DetectorResult.#ctor(ZXing.Common.BitMatrix,System.Collections.Generic.List{ZXing.ResultPoint[]},System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ZXing.PDF417.Internal.PDF417DetectorResult"/> class.
+            </summary>
+            <param name="bits">Bits.</param>
+            <param name="points">Points.</param>
+            <param name="rotation">Rotation.</param>
         </member>
         <member name="M:ZXing.PDF417.Internal.PDF417DetectorResult.#ctor(ZXing.Common.BitMatrix,System.Collections.Generic.List{ZXing.ResultPoint[]})">
             <summary>
@@ -9398,6 +9992,17 @@
             <param name="shortDimension"></param>
             <param name="aspectRatio"></param>
         </member>
+        <member name="M:ZXing.PDF417.Internal.PDF417.generateBarcodeLogic(System.String,System.Int32,System.Int32,System.Int32,System.Int32@,System.Boolean)">
+            <summary>
+            Generates the barcode logic.
+            </summary>
+            <param name="msg">the message to encode</param>
+            <param name="errorCorrectionLevel">PDF417 error correction level to use</param>
+            <param name="longDimension"></param>
+            <param name="shortDimension"></param>
+            <param name="aspectRatio"></param>
+            <param name="autoECI">automatically insert ECIs if needed</param>
+        </member>
         <member name="M:ZXing.PDF417.Internal.PDF417.getMacroBlock(System.Int32@)">
             <summary>
             Gets the macro block.
@@ -9459,11 +10064,11 @@
             </summary>
             <param name="compact">if true, enables compaction</param>
         </member>
-        <member name="M:ZXing.PDF417.Internal.PDF417.setEncoding(System.String)">
+        <member name="M:ZXing.PDF417.Internal.PDF417.setEncoding(System.Text.Encoding)">
             <summary>
             Sets output encoding.
             </summary>
-            <param name="encodingname">sets character encoding to use</param>
+            <param name="encoding">sets character encoding to use</param>
         </member>
         <member name="M:ZXing.PDF417.Internal.PDF417.setDisableEci(System.Boolean)">
             <summary>
@@ -9667,7 +10272,7 @@
             Raw code table for text compaction: Punctuation sub-mode
             </summary>
         </member>
-        <member name="M:ZXing.PDF417.Internal.PDF417HighLevelEncoder.encodeHighLevel(System.String,ZXing.PDF417.Internal.Compaction,System.Text.Encoding,System.Boolean)">
+        <member name="M:ZXing.PDF417.Internal.PDF417HighLevelEncoder.encodeHighLevel(System.String,ZXing.PDF417.Internal.Compaction,System.Text.Encoding,System.Boolean,System.Boolean)">
             <summary>
             Performs high-level encoding of a PDF417 message using the algorithm described in annex P
             of ISO/IEC 15438:2001(E). If byte compaction has been selected, then only byte compaction
@@ -9678,20 +10283,36 @@
             <param name="encoding">character encoding used to encode in default or byte compaction
             or null for default / not applicable</param>
             <param name="disableEci">if true, don't add an ECI segment for different encodings than default</param>
+            <param name="autoECI">encode input minimally using multiple ECIs if needed
+            If autoECI encoding is specified and additionally {@code encoding} is specified, then the encoder
+            will use the specified {@link Charset}
+            for any character that can be encoded by it, regardless
+            if a different encoding would lead to a more compact encoding. When no {@code encoding} is specified
+            then charsets will be chosen so that the byte representation is minimal.</param>
             <returns>the encoded message (the char values range from 0 to 928)</returns>
         </member>
-        <member name="M:ZXing.PDF417.Internal.PDF417HighLevelEncoder.encodeText(System.String,System.Int32,System.Int32,System.Text.StringBuilder,System.Int32)">
+        <member name="M:ZXing.PDF417.Internal.PDF417HighLevelEncoder.encodeText(ZXing.Common.ECIInput,System.Int32,System.Int32,System.Text.StringBuilder,System.Int32)">
              <summary>
              Encode parts of the message using Text Compaction as described in ISO/IEC 15438:2001(E),
              chapter 4.4.2.
             
-             <param name="msg">the message</param>
+             <param name="input">the input</param>
              <param name="startpos">the start position within the message</param>
              <param name="count">the number of characters to encode</param>
              <param name="sb">receives the encoded codewords</param>
              <param name="initialSubmode">should normally be SUBMODE_ALPHA</param>
              <returns>the text submode in which this method ends</returns>
              </summary>
+        </member>
+        <member name="M:ZXing.PDF417.Internal.PDF417HighLevelEncoder.encodeMultiECIBinary(ZXing.Common.ECIInput,System.Int32,System.Int32,System.Int32,System.Text.StringBuilder)">
+            <summary>
+            Encode all of the message using Byte Compaction as described in ISO/IEC 15438:2001(E)
+            </summary>
+            <param name="input">the input</param>
+            <param name="startpos">the start position within the message</param>
+            <param name="count">the number of bytes to encode</param>
+            <param name="startmode">the mode from which this method starts</param>
+            <param name="sb">receives the encoded codewords</param>
         </member>
         <member name="M:ZXing.PDF417.Internal.PDF417HighLevelEncoder.encodeBinary(System.Byte[],System.Int32,System.Int32,System.Int32,System.Text.StringBuilder)">
              <summary>
@@ -9706,33 +10327,31 @@
              <param name="sb">receives the encoded codewords</param>
              </summary>
         </member>
-        <member name="M:ZXing.PDF417.Internal.PDF417HighLevelEncoder.determineConsecutiveDigitCount(System.String,System.Int32)">
+        <member name="M:ZXing.PDF417.Internal.PDF417HighLevelEncoder.determineConsecutiveDigitCount(ZXing.Common.ECIInput,System.Int32)">
              <summary>
              Determines the number of consecutive characters that are encodable using numeric compaction.
             
-             <param name="msg">the message</param>
+             <param name="input">the input</param>
              <param name="startpos">the start position within the message</param>
              <returns>the requested character count</returns>
              </summary>
         </member>
-        <member name="M:ZXing.PDF417.Internal.PDF417HighLevelEncoder.determineConsecutiveTextCount(System.String,System.Int32)">
+        <member name="M:ZXing.PDF417.Internal.PDF417HighLevelEncoder.determineConsecutiveTextCount(ZXing.Common.ECIInput,System.Int32)">
              <summary>
              Determines the number of consecutive characters that are encodable using text compaction.
             
-             <param name="msg">the message</param>
+             <param name="input">the input</param>
              <param name="startpos">the start position within the message</param>
              <returns>the requested character count</returns>
              </summary>
         </member>
-        <member name="M:ZXing.PDF417.Internal.PDF417HighLevelEncoder.determineConsecutiveBinaryCount(System.String,System.Byte[],System.Int32,System.Text.Encoding,System.Int32@)">
+        <member name="M:ZXing.PDF417.Internal.PDF417HighLevelEncoder.determineConsecutiveBinaryCount(ZXing.Common.ECIInput,System.Int32,System.Text.Encoding)">
             <summary>
             Determines the number of consecutive characters that are encodable using binary compaction.
             </summary>
-            <param name="msg">the message</param>
-            <param name="bytes">the message converted to a byte array</param>
+            <param name="input">the input</param>
             <param name="startpos">the start position within the message</param>
             <param name="encoding"></param>
-            <param name="byteCount"></param>
             <returns>the requested character count</returns>
         </member>
         <member name="T:ZXing.PDF417.Internal.PDF417OptionalMacroFields">
@@ -10158,7 +10777,7 @@
             The generated barcode as a Matrix of unsigned bytes (0 == black, 255 == white)
             </returns>
         </member>
-        <member name="M:ZXing.PDF417.PDF417Writer.bitMatrixFromEncoder(ZXing.PDF417.Internal.PDF417,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+        <member name="M:ZXing.PDF417.PDF417Writer.bitMatrixFromEncoder(ZXing.PDF417.Internal.PDF417,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean)">
             <summary>
             Takes encoder, accounts for width/height, and retrieves bit matrix
             </summary>
@@ -10673,15 +11292,21 @@
             decoding caller. Callers are expected to process this.
             </summary>
         </member>
-        <member name="M:ZXing.QrCode.Internal.QRCodeDecoderMetaData.#ctor(System.Boolean)">
+        <member name="M:ZXing.QrCode.Internal.QRCodeDecoderMetaData.#ctor(System.Boolean,System.Int32)">
             <summary>
             Initializes a new instance of the <see cref="T:ZXing.QrCode.Internal.QRCodeDecoderMetaData"/> class.
             </summary>
             <param name="mirrored">if set to <c>true</c> [mirrored].</param>
+            <param name="dataMask">The mask applied to the bit matrix</param>
         </member>
         <member name="P:ZXing.QrCode.Internal.QRCodeDecoderMetaData.IsMirrored">
             <summary>
             true if the QR Code was mirrored. 
+            </summary>
+        </member>
+        <member name="P:ZXing.QrCode.Internal.QRCodeDecoderMetaData.DataMask">
+            <summary>
+            The mask applied to the QR code
             </summary>
         </member>
         <member name="M:ZXing.QrCode.Internal.QRCodeDecoderMetaData.applyMirroredCorrection(ZXing.ResultPoint[])">
@@ -12261,6 +12886,16 @@
             <param name="options">The options.</param>
             <returns></returns>
         </member>
+        <member name="T:ZXing.Rendering.StringRenderer">
+            <summary> Renders a <see cref="T:ZXing.Common.BitMatrix" /> to a <see cref="T:System.String" /> </summary>
+            <inheritdoc />
+        </member>
+        <member name="P:ZXing.Rendering.StringRenderer.Foreground">
+            <summary> Foreground/filled Char. </summary>
+        </member>
+        <member name="P:ZXing.Rendering.StringRenderer.Background">
+            <summary> Background/blank Char. </summary>
+        </member>
         <member name="T:ZXing.Rendering.SvgRenderer">
             <summary>
             Renders a barcode into a Svg image
@@ -12560,6 +13195,11 @@
             <summary>
             Barcode Symbology Identifier.
             Note: According to the GS1 specification the identifier may have to replace a leading FNC1/GS character when prepending to the barcode content.
+            </summary>
+        </member>
+        <member name="F:ZXing.ResultMetadataType.QR_MASK_PATTERN">
+            <summary>
+            The bit mask applied to a QR code
             </summary>
         </member>
         <member name="T:ZXing.ResultPoint">

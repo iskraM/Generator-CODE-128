@@ -33,8 +33,9 @@ namespace Code128Generator
             this.pbCodes = new System.Windows.Forms.PictureBox();
             this.rtbRawCodes = new System.Windows.Forms.RichTextBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.btnGenerate = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnGenerate = new System.Windows.Forms.Button();
+            this.btnPDF = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pbCodes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -84,18 +85,6 @@ namespace Code128Generator
             this.splitContainer1.SplitterDistance = 315;
             this.splitContainer1.TabIndex = 4;
             // 
-            // btnGenerate
-            // 
-            this.btnGenerate.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.btnGenerate.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
-            this.btnGenerate.Location = new System.Drawing.Point(10, 547);
-            this.btnGenerate.Name = "btnGenerate";
-            this.btnGenerate.Size = new System.Drawing.Size(759, 42);
-            this.btnGenerate.TabIndex = 3;
-            this.btnGenerate.Text = "GENERATE";
-            this.btnGenerate.UseVisualStyleBackColor = true;
-            this.btnGenerate.Click += new System.EventHandler(this.btnGenerate_Click);
-            // 
             // panel1
             // 
             this.panel1.AutoScroll = true;
@@ -106,11 +95,34 @@ namespace Code128Generator
             this.panel1.Size = new System.Drawing.Size(440, 528);
             this.panel1.TabIndex = 3;
             // 
+            // btnGenerate
+            // 
+            this.btnGenerate.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
+            this.btnGenerate.Location = new System.Drawing.Point(10, 547);
+            this.btnGenerate.Name = "btnGenerate";
+            this.btnGenerate.Size = new System.Drawing.Size(504, 42);
+            this.btnGenerate.TabIndex = 3;
+            this.btnGenerate.Text = "GENERATE CODES";
+            this.btnGenerate.UseVisualStyleBackColor = true;
+            this.btnGenerate.Click += new System.EventHandler(this.btnGenerate_Click);
+            // 
+            // btnPDF
+            // 
+            this.btnPDF.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
+            this.btnPDF.Location = new System.Drawing.Point(520, 547);
+            this.btnPDF.Name = "btnPDF";
+            this.btnPDF.Size = new System.Drawing.Size(246, 42);
+            this.btnPDF.TabIndex = 5;
+            this.btnPDF.Text = "GENERATE PDF";
+            this.btnPDF.UseVisualStyleBackColor = true;
+            this.btnPDF.Click += new System.EventHandler(this.btnPDF_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(779, 599);
+            this.Controls.Add(this.btnPDF);
             this.Controls.Add(this.btnGenerate);
             this.Controls.Add(this.splitContainer1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -134,6 +146,7 @@ namespace Code128Generator
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Button btnGenerate;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button btnPDF;
     }
 }
 

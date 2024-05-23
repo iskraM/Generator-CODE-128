@@ -15,7 +15,34 @@ D:\Generator-CODE-128\WindowsFormsApp1\obj\Release\WindowsFormsApp1.pdb
 D:\Generator-CODE-128\Code128Generator\bin\Release\Code-128 Generator.exe.config
 D:\Generator-CODE-128\Code128Generator\bin\Release\Code-128 Generator.exe
 D:\Generator-CODE-128\Code128Generator\bin\Release\Code-128 Generator.pdb
+D:\Generator-CODE-128\Code128Generator\bin\Release\itext.barcodes.xml
+D:\Generator-CODE-128\Code128Generator\bin\Release\itext.bouncy-castle-connector.xml
+D:\Generator-CODE-128\Code128Generator\bin\Release\itext.commons.xml
+D:\Generator-CODE-128\Code128Generator\bin\Release\itext.forms.xml
+D:\Generator-CODE-128\Code128Generator\bin\Release\itext.io.xml
+D:\Generator-CODE-128\Code128Generator\bin\Release\itext.kernel.xml
+D:\Generator-CODE-128\Code128Generator\bin\Release\itext.layout.xml
+D:\Generator-CODE-128\Code128Generator\bin\Release\itext.pdfa.xml
+D:\Generator-CODE-128\Code128Generator\bin\Release\itext.pdfua.xml
+D:\Generator-CODE-128\Code128Generator\bin\Release\itext.sign.xml
+D:\Generator-CODE-128\Code128Generator\bin\Release\itext.styledxmlparser.xml
+D:\Generator-CODE-128\Code128Generator\bin\Release\itext.svg.xml
+D:\Generator-CODE-128\Code128Generator\bin\Release\itextsharp.xml
+D:\Generator-CODE-128\Code128Generator\bin\Release\Microsoft.Bcl.AsyncInterfaces.xml
+D:\Generator-CODE-128\Code128Generator\bin\Release\Microsoft.Extensions.DependencyInjection.xml
+D:\Generator-CODE-128\Code128Generator\bin\Release\Microsoft.Extensions.DependencyInjection.Abstractions.xml
+D:\Generator-CODE-128\Code128Generator\bin\Release\Microsoft.Extensions.Logging.xml
+D:\Generator-CODE-128\Code128Generator\bin\Release\Microsoft.Extensions.Logging.Abstractions.xml
+D:\Generator-CODE-128\Code128Generator\bin\Release\Microsoft.Extensions.Options.xml
+D:\Generator-CODE-128\Code128Generator\bin\Release\Microsoft.Extensions.Primitives.xml
+D:\Generator-CODE-128\Code128Generator\bin\Release\Newtonsoft.Json.xml
+D:\Generator-CODE-128\Code128Generator\bin\Release\System.Buffers.xml
 D:\Generator-CODE-128\Code128Generator\bin\Release\System.Diagnostics.DiagnosticSource.xml
+D:\Generator-CODE-128\Code128Generator\bin\Release\System.Memory.xml
+D:\Generator-CODE-128\Code128Generator\bin\Release\System.Numerics.Vectors.xml
+D:\Generator-CODE-128\Code128Generator\bin\Release\System.Runtime.CompilerServices.Unsafe.xml
+D:\Generator-CODE-128\Code128Generator\bin\Release\System.Threading.Tasks.Extensions.xml
+D:\Generator-CODE-128\Code128Generator\bin\Release\System.ValueTuple.xml
 D:\Generator-CODE-128\Code128Generator\bin\Release\zxing.xml
 D:\Generator-CODE-128\Code128Generator\bin\Release\zxing.presentation.xml
 D:\Generator-CODE-128\Code128Generator\obj\Release\Code128Generator.Form1.resources
@@ -23,7 +50,7 @@ D:\Generator-CODE-128\Code128Generator\obj\Release\Code128Generator.Properties.R
 D:\Generator-CODE-128\Code128Generator\obj\Release\CODE128.csproj.GenerateResource.cache
 D:\Generator-CODE-128\Code128Generator\obj\Release\CODE128.csproj.CoreCompileInputs.cache
 D:\Generator-CODE-128\Code128Generator\obj\Release\CODE128.csproj.Fody.CopyLocal.cache
+D:\Generator-CODE-128\Code128Generator\obj\Release\CODE128.csproj.Fody.RuntimeCopyLocal.cache
 D:\Generator-CODE-128\Code128Generator\obj\Release\CODE128.csproj.CopyComplete
 D:\Generator-CODE-128\Code128Generator\obj\Release\Code-128 Generator.exe
 D:\Generator-CODE-128\Code128Generator\obj\Release\Code-128 Generator.pdb
-D:\Generator-CODE-128\Code128Generator\obj\Release\CODE128.csproj.AssemblyReference.cache
