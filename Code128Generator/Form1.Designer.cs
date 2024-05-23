@@ -36,12 +36,14 @@ namespace Code128Generator
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnGenerate = new System.Windows.Forms.Button();
             this.btnPDF = new System.Windows.Forms.Button();
+            this.panel2 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.pbCodes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // pbCodes
@@ -98,7 +100,7 @@ namespace Code128Generator
             // btnGenerate
             // 
             this.btnGenerate.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
-            this.btnGenerate.Location = new System.Drawing.Point(10, 547);
+            this.btnGenerate.Location = new System.Drawing.Point(0, 6);
             this.btnGenerate.Name = "btnGenerate";
             this.btnGenerate.Size = new System.Drawing.Size(504, 42);
             this.btnGenerate.TabIndex = 3;
@@ -109,21 +111,30 @@ namespace Code128Generator
             // btnPDF
             // 
             this.btnPDF.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
-            this.btnPDF.Location = new System.Drawing.Point(520, 547);
+            this.btnPDF.Location = new System.Drawing.Point(510, 6);
             this.btnPDF.Name = "btnPDF";
-            this.btnPDF.Size = new System.Drawing.Size(246, 42);
+            this.btnPDF.Size = new System.Drawing.Size(249, 42);
             this.btnPDF.TabIndex = 5;
             this.btnPDF.Text = "GENERATE PDF";
             this.btnPDF.UseVisualStyleBackColor = true;
             this.btnPDF.Click += new System.EventHandler(this.btnPDF_Click);
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.btnGenerate);
+            this.panel2.Controls.Add(this.btnPDF);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel2.Location = new System.Drawing.Point(10, 538);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(759, 51);
+            this.panel2.TabIndex = 6;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(779, 599);
-            this.Controls.Add(this.btnPDF);
-            this.Controls.Add(this.btnGenerate);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.splitContainer1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
@@ -136,6 +147,7 @@ namespace Code128Generator
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -147,6 +159,7 @@ namespace Code128Generator
         private System.Windows.Forms.Button btnGenerate;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnPDF;
+        private System.Windows.Forms.Panel panel2;
     }
 }
 
